@@ -19,9 +19,6 @@ const nextConfig: NextConfig = {
       static: 180,
     },
     optimizePackageImports: ["lucide-react", "framer-motion"],
-    serverActions: {
-      bodySizeLimit: "4mb",
-    },
   },
 };
 

@@ -110,6 +110,7 @@ export function DesignForm({
         <Select
           value={category}
           onValueChange={(value) => {
+            if (!value) return;
             setAddingCustom(false);
             setCustomCategory("");
             setCategory(value);

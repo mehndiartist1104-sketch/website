@@ -30,7 +30,7 @@ export function toCategorySlug(input: string): string {
 
 export function mergeDesignCategories(extra: string[] = []): string[] {
   const seen = new Set<string>(DESIGN_CATEGORIES);
-  const merged = [...DESIGN_CATEGORIES];
+  const merged: string[] = [...DESIGN_CATEGORIES];
   for (const item of extra) {
     const slug = toCategorySlug(item);
     if (slug && !seen.has(slug)) {
