@@ -11,6 +11,11 @@
   "prisma": {
     "seed": "node prisma/seed.js"
   },
+  "allowScripts": {
+    "@prisma/client": true,
+    "@prisma/engines": true,
+    "prisma": true
+  },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
     "@neondatabase/serverless": "^1.1.0",
