@@ -28,6 +28,11 @@ export const reviewSchema = z.object({
     .trim()
     .min(10, "Please write at least a sentence")
     .max(2000),
+  imageUrls: z
+    .array(z.string().url())
+    .max(6, "You can add up to 6 photos")
+    .optional()
+    .default([]),
 });
 
 export type ReviewInput = z.infer<typeof reviewSchema>;

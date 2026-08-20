@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { SectionHeading } from "@/components/public/section-heading";
 import { StarRating } from "@/components/public/star-rating";
 import { ReviewForm } from "@/components/public/review-form";
+import { ReviewPhotos } from "@/components/public/review-photos";
 import { Reveal } from "@/components/public/reveal";
 
 export const revalidate = 3600;
@@ -41,6 +42,7 @@ export default async function ReviewsPage() {
                     <p className="mt-3 leading-relaxed text-foreground/85">
                       {review.message}
                     </p>
+                    <ReviewPhotos urls={review.imageUrls} />
                     <p className="mt-3 text-xs text-muted-foreground">
                       {review.createdAt.toLocaleDateString("en-IN", {
                         year: "numeric",

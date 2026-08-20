@@ -80,6 +80,7 @@ export async function submitReview(
     name: formData.get("name"),
     rating: formData.get("rating"),
     message: formData.get("message"),
+    imageUrls: formData.getAll("imageUrls").filter(Boolean),
   });
 
   if (!parsed.success) {

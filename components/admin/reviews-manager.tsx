@@ -7,6 +7,7 @@ import type { Review } from "@prisma/client";
 import { approveReview, rejectReview, updateReview } from "@/app/actions/reviews";
 import { initialFormState } from "@/lib/validations/lead";
 import { StarRating } from "@/components/public/star-rating";
+import { ReviewPhotos } from "@/components/public/review-photos";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -122,6 +123,7 @@ function ReviewRow({ review }: { review: Review }) {
           <p className="mt-2 text-sm leading-relaxed text-foreground/85">
             {review.message}
           </p>
+          <ReviewPhotos urls={review.imageUrls} />
           <p className="mt-2 text-xs text-muted-foreground">
             {review.createdAt.toLocaleDateString("en-IN", {
               day: "numeric",

@@ -1,19 +1,25 @@
 "use client";
 
 import { useState, useTransition, type FormEvent } from "react";
+import Image from "next/image";
 import { submitReview } from "@/app/actions/leads";
+import { uploadImageToCloudinary } from "@/lib/upload-image";
 import { initialFormState, type FormState } from "@/lib/validations/lead";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Star } from "lucide-react";
+import { Loader2, Star, Upload, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const MAX_PHOTOS = 6;
 
 export function ReviewForm() {
   const [state, setState] = useState<FormState>(initialFormState);
   const [pending, startTransition] = useTransition();
   const [rating, setRating] = useState(0);
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const errors = state.fieldErrors ?? {};
 
   if (state.status === "success") {
@@ -25,11 +31,44 @@ export function ReviewForm() {
     );
   }
 
+  function addFiles(list: FileList | null) {
+    if (!list?.length) return;
+    const incoming = Array.from(list).filter((file) => file.type.startsWith("image/"));
+    setFiles((current) => {
+      const next = [...current, ...incoming].slice(0, MAX_PHOTOS);
+      setPreviews(next.map((file) => URL.createObjectURL(file)));
+      return next;
+    });
+  }
+
+  function removeFile(index: number) {
+    setFiles((current) => {
+      const next = current.filter((_, i) => i !== index);
+      setPreviews(next.map((file) => URL.createObjectURL(file)));
+      return next;
+    });
+  }
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const fd = new FormData(event.currentTarget);
+    const form = event.currentTarget;
     startTransition(async () => {
-      setState(await submitReview(initialFormState, fd));
+      try {
+        const fd = new FormData(form);
+        for (const file of files) {
+          const uploaded = await uploadImageToCloudinary(file, "reviews");
+          fd.append("imageUrls", uploaded.imageUrl);
+        }
+        setState(await submitReview(initialFormState, fd));
+      } catch (error) {
+        setState({
+          status: "error",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Photo upload failed. You can submit without photos or try again.",
+        });
+      }
     });
   }
 
@@ -85,6 +124,53 @@ export function ReviewForm() {
           aria-invalid={Boolean(errors.message)}
         />
         {errors.message && <p className="text-sm text-destructive">{errors.message[0]}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="review-photos">Photos (optional)</Label>
+        {previews.length > 0 && (
+          <div className="grid grid-cols-3 gap-2">
+            {previews.map((src, index) => (
+              <div
+                key={`${src}-${index}`}
+                className="relative aspect-square overflow-hidden rounded-lg border border-border"
+              >
+                <Image src={src} alt="" fill className="object-cover" sizes="100px" unoptimized />
+                <button
+                  type="button"
+                  onClick={() => removeFile(index)}
+                  className="absolute right-1 top-1 rounded-full bg-primary/80 p-1 text-primary-foreground"
+                  aria-label="Remove photo"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        {files.length < MAX_PHOTOS && (
+          <label
+            htmlFor="review-photos"
+            className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-border px-4 py-3 text-sm text-muted-foreground transition-colors hover:border-terracotta hover:text-terracotta"
+          >
+            <Upload className="h-4 w-4" aria-hidden />
+            {files.length > 0 ? "Add more photos" : "Add photos"}
+            <input
+              id="review-photos"
+              type="file"
+              accept="image/*"
+              multiple
+              className="sr-only"
+              onChange={(event) => {
+                addFiles(event.target.files);
+                event.target.value = "";
+              }}
+            />
+          </label>
+        )}
+        <p className="text-xs text-muted-foreground">
+          Up to {MAX_PHOTOS} photos. Phone pictures are resized automatically.
+        </p>
       </div>
 
       {state.status === "error" && state.message && (

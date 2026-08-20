@@ -2,14 +2,17 @@ import { compressImageForUpload } from "@/lib/compress-image";
 
 export async function uploadImageToCloudinary(
   file: File,
-  folder: "designs" | "hero" = "designs"
+  folder: "designs" | "hero" | "reviews" = "designs"
 ) {
   const prepared = await compressImageForUpload(file);
   const body = new FormData();
   body.append("file", prepared);
   body.append("folder", folder);
 
-  const res = await fetch("/api/admin/upload", {
+  const endpoint =
+    folder === "reviews" ? "/api/reviews/upload" : "/api/admin/upload";
+
+  const res = await fetch(endpoint, {
     method: "POST",
     body,
   });

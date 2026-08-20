@@ -97,7 +97,7 @@ export async function getApprovedReviews(): Promise<ReviewItem[]> {
   return prisma.review.findMany({
     where: { isApproved: true },
     orderBy: { createdAt: "desc" },
-    select: { id: true, name: true, rating: true, message: true, createdAt: true },
+    select: { id: true, name: true, rating: true, message: true, imageUrls: true, createdAt: true },
   });
 }
 

@@ -78,6 +78,7 @@ export interface ReviewItem {
   name: string;
   rating: number;
   message: string;
+  imageUrls: string[];
   createdAt: Date;
 }
 

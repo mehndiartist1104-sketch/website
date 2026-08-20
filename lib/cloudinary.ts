@@ -2,6 +2,7 @@ import { v2 as cloudinary } from "cloudinary";
 
 export const UPLOAD_FOLDER = "mehndi-studio/designs";
 export const HERO_UPLOAD_FOLDER = "mehndi-studio/hero";
+export const REVIEW_UPLOAD_FOLDER = "mehndi-studio/reviews";
 
 function configure() {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
