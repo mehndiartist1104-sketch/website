@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Eye } from "lucide-react";
-import { updateLeadStatus } from "@/app/actions/leads-admin";
+import { Eye, Loader2, Trash2 } from "lucide-react";
+import { deleteLead, updateLeadStatus } from "@/app/actions/leads-admin";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -95,7 +95,29 @@ function StatusSelect({ lead }: { lead: AdminLead }) {
 }
 
 export function LeadsManager({ leads }: { leads: AdminLead[] }) {
+  const router = useRouter();
   const [viewing, setViewing] = useState<AdminLead | null>(null);
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+
+  function handleDelete(lead: AdminLead) {
+    if (
+      !confirm(
+        `Delete the lead from ${lead.name}? This cannot be undone.`
+      )
+    ) {
+      return;
+    }
+    setPendingId(lead.id);
+    startTransition(async () => {
+      const result = await deleteLead(lead.id);
+      setPendingId(null);
+      if (result.ok) {
+        if (viewing?.id === lead.id) setViewing(null);
+        router.refresh();
+      }
+    });
+  }
 
   return (
     <>
@@ -109,7 +131,7 @@ export function LeadsManager({ leads }: { leads: AdminLead[] }) {
               <TableHead className="hidden lg:table-cell">Course</TableHead>
               <TableHead className="hidden sm:table-cell">Date</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="sr-only">View</TableHead>
+              <TableHead className="sr-only">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -140,14 +162,30 @@ export function LeadsManager({ leads }: { leads: AdminLead[] }) {
                   <StatusSelect lead={lead} />
                 </TableCell>
                 <TableCell>
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    onClick={() => setViewing(lead)}
-                    aria-label={`View message from ${lead.name}`}
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center justify-end gap-0.5">
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      onClick={() => setViewing(lead)}
+                      aria-label={`View message from ${lead.name}`}
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      className="text-destructive hover:text-destructive"
+                      disabled={pending && pendingId === lead.id}
+                      onClick={() => handleDelete(lead)}
+                      aria-label={`Delete lead from ${lead.name}`}
+                    >
+                      {pending && pendingId === lead.id ? (
+                        <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                      ) : (
+                        <Trash2 className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -207,6 +245,22 @@ export function LeadsManager({ leads }: { leads: AdminLead[] }) {
                   </dd>
                 </div>
               )}
+              <div className="pt-2">
+                <Button
+                  type="button"
+                  variant="destructive"
+                  className="w-full"
+                  disabled={pending && pendingId === viewing.id}
+                  onClick={() => handleDelete(viewing)}
+                >
+                  {pending && pendingId === viewing.id ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden />
+                  ) : (
+                    <Trash2 className="mr-2 h-4 w-4" aria-hidden />
+                  )}
+                  Delete lead
+                </Button>
+              </div>
             </dl>
           )}
         </DialogContent>
