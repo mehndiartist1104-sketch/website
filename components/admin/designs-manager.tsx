@@ -10,6 +10,7 @@ import {
   reorderDesigns,
   toggleDesignFeatured,
 } from "@/app/actions/designs";
+import { BulkPhotoUpload } from "@/components/admin/bulk-photo-upload";
 import { DesignForm, type AdminDesign } from "@/components/admin/design-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -153,7 +154,7 @@ export function DesignsManager({
           )}
           <Button onClick={() => setCreateOpen(true)}>
             <Plus className="mr-2 h-4 w-4" aria-hidden />
-            Add design
+            Add photos
           </Button>
         </div>
       </div>
@@ -183,9 +184,11 @@ export function DesignsManager({
       {/* Create */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg">
-          <DialogTitle>Add design</DialogTitle>
-          <DialogDescription className="sr-only">Add a new gallery design</DialogDescription>
-          <DesignForm categories={categories} onDone={refreshAndClose} />
+          <DialogTitle>Add photos</DialogTitle>
+          <DialogDescription>
+            Upload one or many pictures. Titles and categories are not needed.
+          </DialogDescription>
+          <BulkPhotoUpload onDone={refreshAndClose} />
         </DialogContent>
       </Dialog>
 

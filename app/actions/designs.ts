@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/guard";
 import { createUploadSignature, deleteCloudinaryAsset } from "@/lib/cloudinary";
@@ -54,6 +55,53 @@ export async function createDesign(
 
   revalidateDesignPaths(parsed.data.category);
   return { status: "success", message: "Design added." };
+}
+
+export async function createDesigns(
+  items: Array<{
+    title: string;
+    category: string;
+    imageUrl: string;
+    cloudinaryPublicId: string;
+  }>
+): Promise<FormState> {
+  await requireAdmin();
+
+  const parsed = z
+    .array(designSchema)
+    .min(1, "Choose at least one photo")
+    .max(24, "Upload up to 24 photos at a time")
+    .safeParse(items.map((item) => ({ ...item, isFeatured: false })));
+
+  if (!parsed.success) {
+    return {
+      status: "error",
+      message: parsed.error.issues[0]?.message ?? "Please fix the errors below.",
+    };
+  }
+
+  const maxOrder = await prisma.design.aggregate({ _max: { sortOrder: true } });
+  const start = maxOrder._max.sortOrder ?? 0;
+
+  await prisma.design.createMany({
+    data: parsed.data.map((item, index) => ({
+      ...item,
+      sortOrder: start + index + 1,
+    })),
+  });
+
+  const categories = [...new Set(parsed.data.map((item) => item.category))];
+  for (const category of categories) {
+    revalidateDesignPaths(category);
+  }
+
+  return {
+    status: "success",
+    message:
+      parsed.data.length === 1
+        ? "Photo added."
+        : `${parsed.data.length} photos added.`,
+  };
 }
 
 export async function updateDesign(

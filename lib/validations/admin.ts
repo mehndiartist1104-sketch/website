@@ -2,7 +2,7 @@ import { z } from "zod";
 import { toCategorySlug } from "@/lib/types";
 
 export const designSchema = z.object({
-  title: z.string().trim().min(2, "Title is required").max(120),
+  title: z.string().trim().min(1, "Title is required").max(120),
   category: z
     .string()
     .trim()
