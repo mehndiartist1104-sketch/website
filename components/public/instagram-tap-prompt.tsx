@@ -1,7 +1,5 @@
 "use client";
 
-import { Instagram } from "lucide-react";
-
 export function InstagramTapPrompt({ href }: { href: string }) {
   return (
     <a
@@ -12,7 +10,11 @@ export function InstagramTapPrompt({ href }: { href: string }) {
     >
       <span className="max-w-xs rounded-3xl border border-gold/50 bg-[#fffaf3] px-6 py-6 text-center shadow-[0_20px_50px_rgba(92,26,27,0.35)]">
         <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-terracotta text-primary-foreground">
-          <Instagram className="h-6 w-6" aria-hidden />
+          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.8" />
+            <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
+            <circle cx="17.2" cy="6.8" r="1" fill="currentColor" />
+          </svg>
         </span>
         <span className="mt-3 block font-heading text-2xl font-semibold text-primary">
           More of this magic
