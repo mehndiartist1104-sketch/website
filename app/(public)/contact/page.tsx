@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Camera, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Camera, MapPin } from "lucide-react";
 import { getSiteConfig } from "@/lib/data";
 import { LeadForm } from "@/components/public/lead-form";
 import { SectionHeading } from "@/components/public/section-heading";
@@ -32,31 +32,31 @@ export default async function ContactPage() {
           <div className="rounded-2xl bg-primary p-6 text-primary-foreground sm:p-8">
             <h2 className="font-heading text-2xl font-semibold">Studio details</h2>
             <ul className="mt-6 space-y-5">
-              <li className="flex items-start gap-3">
-                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden />
-                <div>
-                  <p className="text-sm text-primary-foreground/70">Call us</p>
-                  <a
-                    href={`tel:${config.phone.replace(/\s/g, "")}`}
-                    className="font-medium hover:text-gold"
-                  >
-                    {config.phone}
-                  </a>
-                </div>
+              <li>
+                <a
+                  href={`tel:${config.phone.replace(/\s/g, "")}`}
+                  className="flex items-center gap-3 font-medium hover:text-gold"
+                  aria-label="Call the studio"
+                >
+                  <span className="text-2xl leading-none" aria-hidden>
+                    📞
+                  </span>
+                  <span>Call</span>
+                </a>
               </li>
-              <li className="flex items-start gap-3">
-                <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden />
-                <div>
-                  <p className="text-sm text-primary-foreground/70">WhatsApp</p>
-                  <a
-                    href={`https://wa.me/${config.whatsappNumber.replace(/[^\d]/g, "")}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-medium hover:text-gold"
-                  >
-                    {config.whatsappNumber}
-                  </a>
-                </div>
+              <li>
+                <a
+                  href={`https://wa.me/${config.whatsappNumber.replace(/[^\d]/g, "")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 font-medium hover:text-gold"
+                  aria-label="Chat on WhatsApp"
+                >
+                  <span className="text-2xl leading-none" aria-hidden>
+                    💬
+                  </span>
+                  <span>WhatsApp</span>
+                </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden />

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Camera, MapPin, Phone, MessageCircle } from "lucide-react";
+import { Camera, MapPin } from "lucide-react";
 import { GaneshaMark } from "@/components/brand/ganesha-mark";
 import type { SiteConfigData } from "@/lib/types";
 
@@ -36,20 +36,25 @@ export function SiteFooter({ config }: { config: SiteConfigData }) {
             Contact
           </h3>
           <ul className="mt-4 space-y-3 text-sm text-foreground/80">
-            <li className="flex items-start gap-2">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" aria-hidden />
-              <a href={`tel:${config.phone.replace(/\s/g, "")}`} className="hover:text-terracotta">
-                {config.phone}
+            <li>
+              <a
+                href={`tel:${config.phone.replace(/\s/g, "")}`}
+                className="inline-flex items-center gap-2 py-1.5 hover:text-terracotta"
+                aria-label="Call the studio"
+              >
+                <span aria-hidden>📞</span>
+                Call
               </a>
             </li>
-            <li className="flex items-start gap-2">
-              <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" aria-hidden />
+            <li>
               <a
                 href={`https://wa.me/${config.whatsappNumber.replace(/[^\d]/g, "")}`}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-terracotta"
+                className="inline-flex items-center gap-2 py-1.5 hover:text-terracotta"
+                aria-label="Chat on WhatsApp"
               >
+                <span aria-hidden>💬</span>
                 WhatsApp
               </a>
             </li>

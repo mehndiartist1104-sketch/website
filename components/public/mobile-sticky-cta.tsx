@@ -1,4 +1,3 @@
-import { Phone, MessageCircle } from "lucide-react";
 import type { SiteConfigData } from "@/lib/types";
 
 export function MobileStickyCta({ config }: { config: SiteConfigData }) {
@@ -11,8 +10,9 @@ export function MobileStickyCta({ config }: { config: SiteConfigData }) {
         <a
           href={`tel:${tel}`}
           className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-border bg-card text-sm font-medium text-foreground"
+          aria-label="Call the studio"
         >
-          <Phone className="h-4 w-4 text-terracotta" aria-hidden />
+          <span aria-hidden>📞</span>
           Call
         </a>
         <a
@@ -20,8 +20,9 @@ export function MobileStickyCta({ config }: { config: SiteConfigData }) {
           target="_blank"
           rel="noreferrer"
           className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-primary text-sm font-medium text-primary-foreground"
+          aria-label="Chat on WhatsApp"
         >
-          <MessageCircle className="h-4 w-4" aria-hidden />
+          <span aria-hidden>💬</span>
           WhatsApp
         </a>
       </div>

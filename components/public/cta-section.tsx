@@ -28,7 +28,7 @@ export function CtaSection({ config }: { config: SiteConfigData }) {
               className="h-12 w-full text-base sm:w-auto"
               render={<a href={`tel:${config.phone.replace(/\s/g, "")}`} />}
             >
-              Call {config.phone}
+              📞 Call
             </Button>
           </div>
         </div>
