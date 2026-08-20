@@ -1,0 +1,153 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-heading);
+  --font-heading: var(--font-heading);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-maroon: var(--maroon);
+  --color-terracotta: var(--terracotta);
+  --color-gold: var(--gold);
+  --color-cream: var(--cream);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #faf6f0;
+  --foreground: #2b1a12;
+  --card: #fffdf9;
+  --card-foreground: #2b1a12;
+  --popover: #fffdf9;
+  --popover-foreground: #2b1a12;
+  --primary: #5c1a1b;
+  --primary-foreground: #faf3e8;
+  --secondary: #f3e7d3;
+  --secondary-foreground: #5c1a1b;
+  --muted: #f1e8da;
+  --muted-foreground: #7a6455;
+  --accent: #efe3ce;
+  --accent-foreground: #5c1a1b;
+  --destructive: #a12727;
+  --destructive-foreground: #faf3e8;
+  --border: #e5d8c3;
+  --input: #e5d8c3;
+  --ring: #b04a2f;
+  --maroon: #5c1a1b;
+  --terracotta: #b04a2f;
+  --gold: #c9a227;
+  --cream: #faf6f0;
+  --chart-1: #5c1a1b;
+  --chart-2: #b04a2f;
+  --chart-3: #c9a227;
+  --chart-4: #7a6455;
+  --chart-5: #2b1a12;
+  --radius: 0.625rem;
+  --sidebar: #faf6f0;
+  --sidebar-foreground: #2b1a12;
+  --sidebar-primary: #5c1a1b;
+  --sidebar-primary-foreground: #faf3e8;
+  --sidebar-accent: #f1e8da;
+  --sidebar-accent-foreground: #5c1a1b;
+  --sidebar-border: #e5d8c3;
+  --sidebar-ring: #b04a2f;
+}
+
+.dark {
+  --background: #1d120c;
+  --foreground: #f5ece0;
+  --card: #291a12;
+  --card-foreground: #f5ece0;
+  --popover: #291a12;
+  --popover-foreground: #f5ece0;
+  --primary: #d9a066;
+  --primary-foreground: #2b1a12;
+  --secondary: #3a251a;
+  --secondary-foreground: #f5ece0;
+  --muted: #3a251a;
+  --muted-foreground: #b3987f;
+  --accent: #3a251a;
+  --accent-foreground: #f5ece0;
+  --destructive: #c04848;
+  --destructive-foreground: #faf3e8;
+  --border: #f5ece014;
+  --input: #f5ece01f;
+  --ring: #d9a066;
+  --sidebar: #291a12;
+  --sidebar-foreground: #f5ece0;
+  --sidebar-primary: #d9a066;
+  --sidebar-primary-foreground: #2b1a12;
+  --sidebar-accent: #3a251a;
+  --sidebar-accent-foreground: #f5ece0;
+  --sidebar-border: #f5ece014;
+  --sidebar-ring: #d9a066;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans overflow-x-clip;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground overflow-x-clip;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+}
+
+@utility scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DesignCategory {
+  BRIDAL
+  ARABIC
+  MINIMAL
+  GLITTER
+  KIDS
+  FESTIVE
+}
+
+enum LeadSource {
+  CONTACT_FORM
+  COURSE_ENQUIRY
+  REVIEW_FORM
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  ENROLLED
+  CLOSED
+}
+
+model Admin {
+  id                   String    @id @default(cuid())
+  email                String    @unique
+  passwordHash         String
+  failedLoginAttempts  Int       @default(0)
+  lockoutUntil         DateTime?
+  createdAt            DateTime  @default(now())
+}
+
+model SystemFlag {
+  key   String  @id
+  value Boolean
+}
+
+model Design {
+  id                 String         @id @default(cuid())
+  title              String
+  category           DesignCategory
+  imageUrl           String
+  cloudinaryPublicId String
+  isFeatured         Boolean        @default(false)
+  sortOrder          Int            @default(0)
+  createdAt          DateTime       @default(now())
+
+  @@index([category, sortOrder])
+  @@index([isFeatured, sortOrder])
+}
+
+model Course {
+  id                String   @id @default(cuid())
+  title             String
+  slug              String   @unique
+  description       String
+  curriculumPoints  String[]
+  durationLabel     String
+  price             Int
+  offerPrice        Int?
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  leads             Lead[]
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  name       String
+  rating     Int
+  message    String
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([isApproved, createdAt])
+}
+
+model Lead {
+  id        String     @id @default(cuid())
+  name      String
+  phone     String
+  email     String?
+  courseId  String?
+  course    Course?    @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  message   String?
+  source    LeadSource
+  status    LeadStatus @default(NEW)
+  createdAt DateTime   @default(now())
+
+  @@index([status, createdAt])
+}
+
+model SiteConfig {
+  id             Int      @id @default(1)
+  studioName     String
+  tagline        String
+  phone          String
+  whatsappNumber String
+  instagramUrl   String
+  address        String
+  heroImageUrl   String
+  heroImageUrls  String[] @default([])
+  heroHeadline   String
+  updatedAt      DateTime @updatedAt
+}
