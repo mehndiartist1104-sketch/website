@@ -4,15 +4,16 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import {
-  Flower2,
   LayoutDashboard,
   Images,
   GraduationCap,
   Star,
   Inbox,
   Settings,
+  Award,
   LogOut,
 } from "lucide-react";
+import { GaneshaMark } from "@/components/brand/ganesha-mark";
 import { signOutAction } from "@/app/actions/auth";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +21,7 @@ const NAV = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/designs", label: "Designs", icon: Images },
   { href: "/admin/courses", label: "Courses", icon: GraduationCap },
+  { href: "/admin/certificates", label: "Certificates", icon: Award },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
   { href: "/admin/leads", label: "Leads", icon: Inbox },
   { href: "/admin/settings", label: "Settings", icon: Settings },
@@ -42,7 +44,7 @@ export function AdminSidebar({ email }: { email: string }) {
     <>
       {/* Mobile top bar */}
       <div className="fixed inset-x-0 top-0 z-40 flex items-center gap-1 overflow-x-auto scrollbar-none border-b border-border bg-card px-2 py-2 pt-[max(0.5rem,env(safe-area-inset-top))] md:hidden">
-        <Flower2 className="mr-2 h-5 w-5 shrink-0 text-terracotta" aria-hidden />
+        <GaneshaMark className="mr-2 h-5 w-5 shrink-0 text-terracotta" />
         {NAV.map((item) => (
           <Link
             key={item.href}
@@ -72,7 +74,7 @@ export function AdminSidebar({ email }: { email: string }) {
       {/* Desktop sidebar */}
       <aside className="sticky top-0 hidden h-svh w-60 shrink-0 flex-col border-r border-border bg-card md:flex">
         <div className="flex items-center gap-2 px-5 py-5 text-primary">
-          <Flower2 className="h-6 w-6 text-terracotta" aria-hidden />
+          <GaneshaMark className="h-6 w-6 text-terracotta" />
           <span className="font-heading text-xl font-semibold">Studio Admin</span>
         </div>
         <nav className="flex-1 space-y-1 px-3" aria-label="Admin">

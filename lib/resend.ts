@@ -35,3 +35,31 @@ export async function notifyAdminOfLead(lead: LeadNotification) {
     `,
   });
 }
+
+export async function sendCertificateEmail(payload: {
+  to: string;
+  recipientName: string;
+  courseTitle: string;
+  studioName: string;
+  serialNumber: string;
+  certificateUrl: string;
+}) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn("Resend not configured; skipping certificate email");
+    return;
+  }
+
+  const resend = new Resend(apiKey);
+  await resend.emails.send({
+    from: `${payload.studioName} <onboarding@resend.dev>`,
+    to: payload.to,
+    subject: `Your ${payload.courseTitle} certificate of completion`,
+    html: `
+      <p>Dear ${payload.recipientName},</p>
+      <p>Congratulations on completing <strong>${payload.courseTitle}</strong>.</p>
+      <p>Your official certificate number is <strong>${payload.serialNumber}</strong>.</p>
+      <p><a href="${payload.certificateUrl}">View and print your certificate</a></p>
+    `,
+  });
+}

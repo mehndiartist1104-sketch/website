@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X, Flower2 } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { GaneshaMark } from "@/components/brand/ganesha-mark";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -37,7 +38,7 @@ export function SiteHeader({ studioName }: { studioName: string }) {
           className="flex min-w-0 items-center gap-2 text-primary"
           onClick={() => setOpen(false)}
         >
-          <Flower2 className="h-6 w-6 shrink-0 text-terracotta" aria-hidden />
+          <GaneshaMark className="h-6 w-6 shrink-0 text-terracotta" />
           <span className="truncate font-heading text-xl font-semibold tracking-wide sm:text-2xl">
             {studioName}
           </span>

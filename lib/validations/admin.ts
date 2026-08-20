@@ -55,6 +55,19 @@ export const siteConfigSchema = z.object({
 
 export const leadStatusSchema = z.enum(["NEW", "CONTACTED", "ENROLLED", "CLOSED"]);
 
+export const certificateSchema = z.object({
+  recipientName: z.string().trim().min(2, "Student name is required").max(120),
+  recipientEmail: z
+    .string()
+    .trim()
+    .email("Enter a valid email")
+    .max(200)
+    .optional()
+    .or(z.literal("")),
+  courseId: z.string().trim().min(1, "Select a course"),
+  completedAt: z.string().trim().min(1, "Completion date is required"),
+});
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()

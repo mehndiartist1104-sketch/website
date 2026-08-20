@@ -69,6 +69,7 @@ model Course {
   isActive          Boolean  @default(true)
   createdAt         DateTime @default(now())
   leads             Lead[]
+  certificates      Certificate[]
 }
 
 model Review {
@@ -95,6 +96,19 @@ model Lead {
   createdAt DateTime   @default(now())
 
   @@index([status, createdAt])
+}
+
+model Certificate {
+  id             String   @id @default(cuid())
+  serialNumber   String   @unique
+  recipientName  String
+  recipientEmail String?
+  courseId       String
+  course         Course   @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  completedAt    DateTime
+  issuedAt       DateTime @default(now())
+
+  @@index([issuedAt])
 }
 
 model SiteConfig {

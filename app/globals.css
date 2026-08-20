@@ -151,3 +151,18 @@
     display: none;
   }
 }
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 6mm;
+  }
+  body {
+    background: white !important;
+  }
+  #course-certificate {
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

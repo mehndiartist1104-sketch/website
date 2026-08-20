@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Flower2, Camera, MapPin, Phone, MessageCircle } from "lucide-react";
+import { Camera, MapPin, Phone, MessageCircle } from "lucide-react";
+import { GaneshaMark } from "@/components/brand/ganesha-mark";
 import type { SiteConfigData } from "@/lib/types";
 
 export function SiteFooter({ config }: { config: SiteConfigData }) {
@@ -8,7 +9,7 @@ export function SiteFooter({ config }: { config: SiteConfigData }) {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
         <div>
           <div className="flex items-center gap-2 text-primary">
-            <Flower2 className="h-6 w-6 text-terracotta" aria-hidden />
+            <GaneshaMark className="h-6 w-6 text-terracotta" />
             <span className="font-heading text-2xl font-semibold">
               {config.studioName}
             </span>
