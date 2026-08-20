@@ -1,8 +1,14 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { CATEGORY_LABELS, DESIGN_CATEGORIES, type DesignCategory } from "@/lib/types";
+import { categoryLabel } from "@/lib/types";
 
-export function CategoryFilter({ current }: { current?: DesignCategory }) {
+export function CategoryFilter({
+  current,
+  categories,
+}: {
+  current?: string;
+  categories: string[];
+}) {
   return (
     <div
       className="-mx-4 flex flex-nowrap gap-2 overflow-x-auto scrollbar-none px-4 pb-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0"
@@ -20,7 +26,7 @@ export function CategoryFilter({ current }: { current?: DesignCategory }) {
       >
         All
       </Link>
-      {DESIGN_CATEGORIES.map((category) => (
+      {categories.map((category) => (
         <Link
           key={category}
           href={`/gallery/${category.toLowerCase()}`}
@@ -31,7 +37,7 @@ export function CategoryFilter({ current }: { current?: DesignCategory }) {
               : "border-border bg-card text-foreground/75 hover:border-terracotta hover:text-terracotta"
           )}
         >
-          {CATEGORY_LABELS[category]}
+          {categoryLabel(category)}
         </Link>
       ))}
     </div>

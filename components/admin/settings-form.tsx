@@ -58,8 +58,17 @@ export function SettingsForm({ config }: { config: SiteConfig }) {
       console.error(error);
       setState({
         status: "error",
-        message: "Image upload failed. Try a smaller file.",
-        fieldErrors: { heroImageUrls: ["Image upload failed. Try a smaller file."] },
+        message:
+          error instanceof Error
+            ? error.message
+            : "Image upload failed. Try another photo.",
+        fieldErrors: {
+          heroImageUrls: [
+            error instanceof Error
+              ? error.message
+              : "Image upload failed. Try another photo.",
+          ],
+        },
       });
     } finally {
       setUploading(false);

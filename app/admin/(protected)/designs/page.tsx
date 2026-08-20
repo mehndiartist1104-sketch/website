@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
+import { getDesignCategories } from "@/lib/data";
 import { prisma } from "@/lib/prisma";
 import { DesignsManager } from "@/components/admin/designs-manager";
 
 export const metadata: Metadata = { title: "Designs" };
 
 export default async function AdminDesignsPage() {
-  const designs = await prisma.design.findMany({
-    orderBy: { sortOrder: "asc" },
-  });
+  const [designs, categories] = await Promise.all([
+    prisma.design.findMany({
+      orderBy: { sortOrder: "asc" },
+    }),
+    getDesignCategories(),
+  ]);
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -16,7 +20,7 @@ export default async function AdminDesignsPage() {
         Manage the public gallery — uploads go straight to Cloudinary.
       </p>
       <div className="mt-8">
-        <DesignsManager initialDesigns={designs} />
+        <DesignsManager initialDesigns={designs} categories={categories} />
       </div>
     </div>
   );

@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 import { GalleryGrid } from "@/components/public/gallery-grid";
 import { fetchDesignsPage } from "@/app/actions/gallery";
 import { GALLERY_PAGE_SIZE } from "@/lib/constants";
-import type { DesignCategory, DesignItem } from "@/lib/types";
+import type { DesignItem } from "@/lib/types";
 
 export function LoadMoreDesigns({
   category,
   initialLoaded,
   total,
 }: {
-  category?: DesignCategory;
+  category?: string;
   initialLoaded: number;
   total: number;
 }) {

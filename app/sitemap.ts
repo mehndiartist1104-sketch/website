@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
-import { DESIGN_CATEGORIES } from "@/lib/types";
+import { getDesignCategories } from "@/lib/data";
 
 export const revalidate = 3600;
 
@@ -19,13 +19,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: path === "" ? 1 : 0.8,
   }));
 
-  const categoryRoutes: MetadataRoute.Sitemap = DESIGN_CATEGORIES.map(
-    (category) => ({
-      url: `${baseUrl}/gallery/${category.toLowerCase()}`,
-      changeFrequency: "weekly",
-      priority: 0.6,
-    })
-  );
+  const categories = await getDesignCategories();
+  const categoryRoutes: MetadataRoute.Sitemap = categories.map((category) => ({
+    url: `${baseUrl}/gallery/${category.toLowerCase()}`,
+    changeFrequency: "weekly",
+    priority: 0.6,
+  }));
 
   const courses = await prisma.course.findMany({
     where: { isActive: true },

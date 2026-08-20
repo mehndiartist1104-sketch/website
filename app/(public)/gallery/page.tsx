@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getDesigns } from "@/lib/data";
+import { getDesignCategories, getDesigns } from "@/lib/data";
 import { GALLERY_PAGE_SIZE } from "@/lib/constants";
 import { GalleryGrid } from "@/components/public/gallery-grid";
 import { CategoryFilter } from "@/components/public/category-filter";
@@ -15,7 +15,10 @@ export const metadata: Metadata = {
 };
 
 export default async function GalleryPage() {
-  const { designs, total } = await getDesigns({ limit: GALLERY_PAGE_SIZE });
+  const [{ designs, total }, categories] = await Promise.all([
+    getDesigns({ limit: GALLERY_PAGE_SIZE }),
+    getDesignCategories(),
+  ]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
@@ -25,7 +28,7 @@ export default async function GalleryPage() {
         description="Every piece is drawn freehand. Filter by style to find your inspiration."
       />
       <div className="mt-10">
-        <CategoryFilter />
+        <CategoryFilter categories={categories} />
       </div>
       <div className="mt-10">
         {designs.length > 0 ? (

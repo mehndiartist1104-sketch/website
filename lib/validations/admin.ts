@@ -1,8 +1,15 @@
 import { z } from "zod";
+import { toCategorySlug } from "@/lib/types";
 
 export const designSchema = z.object({
   title: z.string().trim().min(2, "Title is required").max(120),
-  category: z.enum(["BRIDAL", "ARABIC", "MINIMAL", "GLITTER", "KIDS", "FESTIVE"]),
+  category: z
+    .string()
+    .trim()
+    .min(2, "Category is required")
+    .max(40)
+    .transform(toCategorySlug)
+    .refine((value) => value.length >= 2, "Category is required"),
   imageUrl: z.string().url("Upload an image first"),
   cloudinaryPublicId: z.string().min(1),
   isFeatured: z.boolean(),

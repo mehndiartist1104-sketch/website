@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import type {
   CourseItem,
-  DesignCategory,
   DesignItem,
   ReviewItem,
   SiteConfigData,
 } from "@/lib/types";
+import { mergeDesignCategories } from "@/lib/types";
 import { GALLERY_PAGE_SIZE } from "@/lib/constants";
 
 export async function getSiteConfig(): Promise<SiteConfigData> {
@@ -49,7 +49,7 @@ export async function getFeaturedDesigns(limit = 6): Promise<DesignItem[]> {
 }
 
 export async function getDesigns(options: {
-  category?: DesignCategory;
+  category?: string;
   offset?: number;
   limit?: number;
 }): Promise<{ designs: DesignItem[]; total: number }> {
@@ -72,6 +72,14 @@ export async function getDesigns(options: {
     prisma.design.count({ where }),
   ]);
   return { designs, total };
+}
+
+export async function getDesignCategories(): Promise<string[]> {
+  const rows = await prisma.design.findMany({
+    distinct: ["category"],
+    select: { category: true },
+  });
+  return mergeDesignCategories(rows.map((row) => row.category));
 }
 
 export async function getActiveCourses(): Promise<CourseItem[]> {

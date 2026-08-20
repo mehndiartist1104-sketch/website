@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CATEGORY_LABELS, DESIGN_CATEGORIES, type DesignCategory } from "@/lib/types";
+import { categoryLabel, type DesignCategory } from "@/lib/types";
 
 export interface AdminDesign {
   id: string;
@@ -31,15 +31,19 @@ export interface AdminDesign {
 
 export function DesignForm({
   design,
+  categories,
   onDone,
 }: {
   design?: AdminDesign;
+  categories: string[];
   onDone: () => void;
 }) {
   const [state, setState] = useState<FormState>(initialFormState);
   const [category, setCategory] = useState<DesignCategory>(
     design?.category ?? "BRIDAL"
   );
+  const [customCategory, setCustomCategory] = useState("");
+  const [addingCustom, setAddingCustom] = useState(false);
   const [featured, setFeatured] = useState(design?.isFeatured ?? false);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(design?.imageUrl ?? null);
@@ -61,7 +65,7 @@ export function DesignForm({
 
         const fd = new FormData();
         fd.set("title", String(new FormData(form).get("title") ?? ""));
-        fd.set("category", category);
+        fd.set("category", addingCustom ? customCategory : category);
         fd.set("imageUrl", imageUrl);
         fd.set("cloudinaryPublicId", cloudinaryPublicId);
         if (featured) fd.set("isFeatured", "on");
@@ -74,7 +78,13 @@ export function DesignForm({
         if (result.status === "success") onDone();
       } catch (error) {
         console.error(error);
-        setState({ status: "error", message: "Image upload failed. Try a smaller file." });
+        setState({
+          status: "error",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Image upload failed. Try another photo.",
+        });
       }
     });
   }
@@ -99,19 +109,35 @@ export function DesignForm({
         <Label>Category</Label>
         <Select
           value={category}
-          onValueChange={(value) => setCategory(value as DesignCategory)}
+          onValueChange={(value) => {
+            setAddingCustom(false);
+            setCustomCategory("");
+            setCategory(value);
+          }}
         >
           <SelectTrigger className="w-full">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
-            {DESIGN_CATEGORIES.map((c) => (
+          <SelectContent alignItemWithTrigger={false} align="start">
+            {categories.map((c) => (
               <SelectItem key={c} value={c}>
-                {CATEGORY_LABELS[c]}
+                {categoryLabel(c)}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
+        <Label htmlFor="custom-category" className="text-muted-foreground">
+          Or type a new category
+        </Label>
+        <Input
+          id="custom-category"
+          value={customCategory}
+          onChange={(event) => {
+            setCustomCategory(event.target.value);
+            setAddingCustom(event.target.value.trim().length > 0);
+          }}
+          placeholder="e.g. Engagement, Party, Festival special"
+        />
         {state.fieldErrors?.category && (
           <p className="text-sm text-destructive">{state.fieldErrors.category[0]}</p>
         )}
@@ -134,7 +160,7 @@ export function DesignForm({
             <input
               id="design-image"
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*"
               className="sr-only"
               onChange={(e) => {
                 const next = e.target.files?.[0] ?? null;
@@ -144,6 +170,9 @@ export function DesignForm({
             />
           </label>
         </div>
+        <p className="text-xs text-muted-foreground">
+          Phone photos are resized automatically before upload.
+        </p>
         {state.fieldErrors?.imageUrl && (
           <p className="text-sm text-destructive">{state.fieldErrors.imageUrl[0]}</p>
         )}

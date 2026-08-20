@@ -8,15 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum DesignCategory {
-  BRIDAL
-  ARABIC
-  MINIMAL
-  GLITTER
-  KIDS
-  FESTIVE
-}
-
 enum LeadSource {
   CONTACT_FORM
   COURSE_ENQUIRY
@@ -47,7 +38,7 @@ model SystemFlag {
 model Design {
   id                 String         @id @default(cuid())
   title              String
-  category           DesignCategory
+  category           String
   imageUrl           String
   cloudinaryPublicId String
   isFeatured         Boolean        @default(false)

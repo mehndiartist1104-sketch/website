@@ -31,3 +31,25 @@ export async function deleteCloudinaryAsset(publicId: string) {
     throw new Error(`Cloudinary deletion failed: ${result.result}`);
   }
 }
+
+export async function uploadImageBuffer(buffer: Buffer, folder: string) {
+  configure();
+  return new Promise<{ imageUrl: string; cloudinaryPublicId: string }>(
+    (resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder, resource_type: "image" },
+        (error, result) => {
+          if (error || !result?.secure_url || !result.public_id) {
+            reject(new Error(error?.message ?? "Cloudinary upload failed"));
+            return;
+          }
+          resolve({
+            imageUrl: result.secure_url,
+            cloudinaryPublicId: result.public_id,
+          });
+        }
+      );
+      stream.end(buffer);
+    }
+  );
+}

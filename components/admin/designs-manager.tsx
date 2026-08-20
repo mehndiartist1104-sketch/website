@@ -105,7 +105,13 @@ function DesignRow({
   );
 }
 
-export function DesignsManager({ initialDesigns }: { initialDesigns: AdminDesign[] }) {
+export function DesignsManager({
+  initialDesigns,
+  categories,
+}: {
+  initialDesigns: AdminDesign[];
+  categories: string[];
+}) {
   const router = useRouter();
   const [designs, setDesigns] = useState(initialDesigns);
   const [savedOrder, setSavedOrder] = useState(initialDesigns.map((d) => d.id));
@@ -179,7 +185,7 @@ export function DesignsManager({ initialDesigns }: { initialDesigns: AdminDesign
         <DialogContent className="sm:max-w-lg">
           <DialogTitle>Add design</DialogTitle>
           <DialogDescription className="sr-only">Add a new gallery design</DialogDescription>
-          <DesignForm onDone={refreshAndClose} />
+          <DesignForm categories={categories} onDone={refreshAndClose} />
         </DialogContent>
       </Dialog>
 
@@ -188,7 +194,13 @@ export function DesignsManager({ initialDesigns }: { initialDesigns: AdminDesign
         <DialogContent className="sm:max-w-lg">
           <DialogTitle>Edit design</DialogTitle>
           <DialogDescription className="sr-only">Edit gallery design</DialogDescription>
-          {editing && <DesignForm design={editing} onDone={refreshAndClose} />}
+          {editing && (
+            <DesignForm
+              design={editing}
+              categories={categories}
+              onDone={refreshAndClose}
+            />
+          )}
         </DialogContent>
       </Dialog>
 
