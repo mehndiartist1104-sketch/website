@@ -9,7 +9,7 @@ export function LocalBusinessJsonLd({ config }: { config: SiteConfigData }) {
     name: config.studioName,
     description: config.tagline,
     url: baseUrl,
-    telephone: config.phone,
+    ...(config.showPhone ? { telephone: config.phone } : {}),
     address: {
       "@type": "PostalAddress",
       streetAddress: config.address,

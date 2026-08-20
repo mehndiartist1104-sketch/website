@@ -116,5 +116,7 @@ model SiteConfig {
   heroImageUrl   String
   heroImageUrls  String[] @default([])
   heroHeadline   String
+  showPhone      Boolean  @default(false)
+  showWhatsApp   Boolean  @default(false)
   updatedAt      DateTime @updatedAt
 }

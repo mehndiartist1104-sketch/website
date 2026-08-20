@@ -9,7 +9,14 @@ import { initialFormState, type FormState } from "@/lib/validations/lead";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import type { SiteConfig } from "@prisma/client";
 
@@ -27,6 +34,11 @@ export function SettingsForm({ config }: { config: SiteConfig }) {
     if (config.heroImageUrls.length > 0) return config.heroImageUrls;
     return config.heroImageUrl ? [config.heroImageUrl] : [];
   });
+  const [showPhone, setShowPhone] = useState(config.showPhone);
+  const [showWhatsApp, setShowWhatsApp] = useState(config.showWhatsApp);
+  const [confirmToggle, setConfirmToggle] = useState<
+    null | { field: "phone" | "whatsapp"; next: boolean }
+  >(null);
 
   const errors = state.fieldErrors ?? {};
 
@@ -84,16 +96,32 @@ export function SettingsForm({ config }: { config: SiteConfig }) {
     setUrlDraft("");
   }
 
+  function applyConfirmedToggle() {
+    if (!confirmToggle) return;
+    if (confirmToggle.field === "phone") setShowPhone(confirmToggle.next);
+    else setShowWhatsApp(confirmToggle.next);
+    setConfirmToggle(null);
+  }
+
+  const confirmCopy =
+    confirmToggle?.field === "phone"
+      ? confirmToggle.next
+        ? "This will show a Call button on the public website. Visitors will be able to start a phone call. Click Continue, then Save settings to publish."
+        : "This will hide the Call button from the public website. Click Continue, then Save settings to publish."
+      : confirmToggle?.next
+        ? "This will show a WhatsApp button on the public website. Visitors will be able to open a chat. Click Continue, then Save settings to publish."
+        : "This will hide the WhatsApp button from the public website. Click Continue, then Save settings to publish.";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+      <input type="hidden" name="showPhone" value={showPhone ? "true" : "false"} />
+      <input type="hidden" name="showWhatsApp" value={showWhatsApp ? "true" : "false"} />
+
       {(
         [
           { id: "studioName", label: "Studio name", value: config.studioName },
           { id: "tagline", label: "Tagline", value: config.tagline },
           { id: "heroHeadline", label: "Hero headline", value: config.heroHeadline },
-          { id: "phone", label: "Phone", value: config.phone, type: "tel" },
-          { id: "whatsappNumber", label: "WhatsApp number", value: config.whatsappNumber, type: "tel" },
-          { id: "instagramUrl", label: "Instagram URL", value: config.instagramUrl, type: "url" },
         ] as const
       ).map((field) => (
         <div key={field.id} className="space-y-2">
@@ -103,12 +131,106 @@ export function SettingsForm({ config }: { config: SiteConfig }) {
             name={field.id}
             defaultValue={field.value}
             required
-            type={"type" in field ? field.type : "text"}
+            type="text"
             aria-invalid={Boolean(errors[field.id])}
           />
           <FieldError messages={errors[field.id]} />
         </div>
       ))}
+
+      <div className="space-y-2">
+        <div className="flex items-center justify-between gap-3">
+          <Label htmlFor="phone">Phone</Label>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="show-phone" className="cursor-pointer text-sm font-normal text-muted-foreground">
+              Show Call on website
+            </Label>
+            <Switch
+              id="show-phone"
+              checked={showPhone}
+              onCheckedChange={(checked) =>
+                setConfirmToggle({ field: "phone", next: Boolean(checked) })
+              }
+            />
+          </div>
+        </div>
+        <Input
+          id="phone"
+          name="phone"
+          defaultValue={config.phone}
+          required
+          type="tel"
+          aria-invalid={Boolean(errors.phone)}
+        />
+        <p className="text-xs text-muted-foreground">
+          The number stays here in admin. The public site only shows a Call button when this is on.
+        </p>
+        <FieldError messages={errors.phone} />
+      </div>
+
+      <div className="space-y-2">
+        <div className="flex items-center justify-between gap-3">
+          <Label htmlFor="whatsappNumber">WhatsApp number</Label>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="show-whatsapp" className="cursor-pointer text-sm font-normal text-muted-foreground">
+              Show WhatsApp on website
+            </Label>
+            <Switch
+              id="show-whatsapp"
+              checked={showWhatsApp}
+              onCheckedChange={(checked) =>
+                setConfirmToggle({ field: "whatsapp", next: Boolean(checked) })
+              }
+            />
+          </div>
+        </div>
+        <Input
+          id="whatsappNumber"
+          name="whatsappNumber"
+          defaultValue={config.whatsappNumber}
+          required
+          type="tel"
+          aria-invalid={Boolean(errors.whatsappNumber)}
+        />
+        <p className="text-xs text-muted-foreground">
+          The number stays here in admin. The public site only shows a WhatsApp button when this is on.
+        </p>
+        <FieldError messages={errors.whatsappNumber} />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="instagramUrl">Instagram URL</Label>
+        <Input
+          id="instagramUrl"
+          name="instagramUrl"
+          defaultValue={config.instagramUrl}
+          required
+          type="url"
+          aria-invalid={Boolean(errors.instagramUrl)}
+        />
+        <p className="text-xs text-muted-foreground">
+          Instagram stays visible on the public site as the default contact link.
+        </p>
+        <FieldError messages={errors.instagramUrl} />
+      </div>
+
+      <Dialog
+        open={confirmToggle !== null}
+        onOpenChange={(open) => !open && setConfirmToggle(null)}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogTitle>Change public contact?</DialogTitle>
+          <DialogDescription>{confirmCopy}</DialogDescription>
+          <div className="flex justify-end gap-3 pt-2">
+            <Button type="button" variant="outline" onClick={() => setConfirmToggle(null)}>
+              Cancel
+            </Button>
+            <Button type="button" onClick={applyConfirmedToggle}>
+              Continue
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <div className="space-y-2">
         <Label htmlFor="address">Studio address</Label>

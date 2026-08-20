@@ -20,6 +20,8 @@ export async function updateSiteConfig(
     instagramUrl: formData.get("instagramUrl"),
     address: formData.get("address"),
     heroHeadline: formData.get("heroHeadline"),
+    showPhone: formData.get("showPhone"),
+    showWhatsApp: formData.get("showWhatsApp"),
     heroImageUrls: formData
       .getAll("heroImageUrls")
       .map((value) => String(value).trim())
@@ -43,6 +45,8 @@ export async function updateSiteConfig(
     instagramUrl: parsed.data.instagramUrl,
     address: parsed.data.address,
     heroHeadline: parsed.data.heroHeadline,
+    showPhone: parsed.data.showPhone,
+    showWhatsApp: parsed.data.showWhatsApp,
   };
 
   await prisma.siteConfig.upsert({

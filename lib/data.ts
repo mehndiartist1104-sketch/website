@@ -29,6 +29,8 @@ export async function getSiteConfig(): Promise<SiteConfigData> {
     heroImageUrl: heroImageUrls[0] ?? config.heroImageUrl,
     heroImageUrls,
     heroHeadline: config.heroHeadline,
+    showPhone: config.showPhone,
+    showWhatsApp: config.showWhatsApp,
   };
 }
 

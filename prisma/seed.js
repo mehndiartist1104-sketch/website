@@ -110,6 +110,8 @@ async function main() {
       heroImageUrl: "/hero.svg",
       heroImageUrls: ["/hero.svg"],
       heroHeadline: "Intricate henna, unforgettable occasions",
+      showPhone: false,
+      showWhatsApp: false,
     },
   });
 

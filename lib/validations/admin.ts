@@ -58,6 +58,12 @@ export const siteConfigSchema = z.object({
     .min(1, "Add at least one hero image")
     .max(12, "You can add up to 12 hero images"),
   heroHeadline: z.string().trim().min(5, "Headline is required").max(150),
+  showPhone: z
+    .union([z.literal("true"), z.literal("false"), z.boolean()])
+    .transform((value) => value === true || value === "true"),
+  showWhatsApp: z
+    .union([z.literal("true"), z.literal("false"), z.boolean()])
+    .transform((value) => value === true || value === "true"),
 });
 
 export const leadStatusSchema = z.enum(["NEW", "CONTACTED", "ENROLLED", "CLOSED"]);

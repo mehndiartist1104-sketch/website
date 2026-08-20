@@ -23,7 +23,8 @@ export default async function AdminSettingsPage() {
       <h1 className="font-heading text-3xl font-semibold text-primary">Settings</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         These values power the public site — contact details, hero content, and
-        social links. Saving updates the live site immediately.
+        social links. Use the Phone and WhatsApp toggles to choose which buttons
+        appear publicly. Saving updates the live site immediately.
       </p>
       <div className="mt-8 rounded-2xl border border-border bg-card p-6 sm:p-8">
         <SettingsForm config={config} />

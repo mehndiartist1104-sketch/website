@@ -36,28 +36,32 @@ export function SiteFooter({ config }: { config: SiteConfigData }) {
             Contact
           </h3>
           <ul className="mt-4 space-y-3 text-sm text-foreground/80">
-            <li>
-              <a
-                href={`tel:${config.phone.replace(/\s/g, "")}`}
-                className="inline-flex items-center gap-2 py-1.5 hover:text-terracotta"
-                aria-label="Call the studio"
-              >
-                <span aria-hidden>📞</span>
-                Call
-              </a>
-            </li>
-            <li>
-              <a
-                href={`https://wa.me/${config.whatsappNumber.replace(/[^\d]/g, "")}`}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 py-1.5 hover:text-terracotta"
-                aria-label="Chat on WhatsApp"
-              >
-                <span aria-hidden>💬</span>
-                WhatsApp
-              </a>
-            </li>
+            {config.showPhone && (
+              <li>
+                <a
+                  href={`tel:${config.phone.replace(/\s/g, "")}`}
+                  className="inline-flex items-center gap-2 py-1.5 hover:text-terracotta"
+                  aria-label="Call the studio"
+                >
+                  <span aria-hidden>📞</span>
+                  Call
+                </a>
+              </li>
+            )}
+            {config.showWhatsApp && (
+              <li>
+                <a
+                  href={`https://wa.me/${config.whatsappNumber.replace(/[^\d]/g, "")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 py-1.5 hover:text-terracotta"
+                  aria-label="Chat on WhatsApp"
+                >
+                  <span aria-hidden>💬</span>
+                  WhatsApp
+                </a>
+              </li>
+            )}
             <li className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" aria-hidden />
               <span>{config.address}</span>

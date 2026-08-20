@@ -93,6 +93,8 @@ export interface SiteConfigData {
   heroImageUrl: string;
   heroImageUrls: string[];
   heroHeadline: string;
+  showPhone: boolean;
+  showWhatsApp: boolean;
 }
 
 export function formatPrice(paise: number): string {

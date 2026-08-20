@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "SiteConfig" ADD COLUMN "showPhone" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "SiteConfig" ADD COLUMN "showWhatsApp" BOOLEAN NOT NULL DEFAULT false;

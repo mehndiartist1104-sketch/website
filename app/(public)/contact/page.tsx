@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Book a mehndi session or ask us anything — call, WhatsApp, or send the enquiry form.",
+    "Book a mehndi session or ask us anything — send the enquiry form or follow us on Instagram.",
 };
 
 export default async function ContactPage() {
@@ -32,32 +32,36 @@ export default async function ContactPage() {
           <div className="rounded-2xl bg-primary p-6 text-primary-foreground sm:p-8">
             <h2 className="font-heading text-2xl font-semibold">Studio details</h2>
             <ul className="mt-6 space-y-5">
-              <li>
-                <a
-                  href={`tel:${config.phone.replace(/\s/g, "")}`}
-                  className="flex items-center gap-3 font-medium hover:text-gold"
-                  aria-label="Call the studio"
-                >
-                  <span className="text-2xl leading-none" aria-hidden>
-                    📞
-                  </span>
-                  <span>Call</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`https://wa.me/${config.whatsappNumber.replace(/[^\d]/g, "")}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-3 font-medium hover:text-gold"
-                  aria-label="Chat on WhatsApp"
-                >
-                  <span className="text-2xl leading-none" aria-hidden>
-                    💬
-                  </span>
-                  <span>WhatsApp</span>
-                </a>
-              </li>
+              {config.showPhone && (
+                <li>
+                  <a
+                    href={`tel:${config.phone.replace(/\s/g, "")}`}
+                    className="flex items-center gap-3 font-medium hover:text-gold"
+                    aria-label="Call the studio"
+                  >
+                    <span className="text-2xl leading-none" aria-hidden>
+                      📞
+                    </span>
+                    <span>Call</span>
+                  </a>
+                </li>
+              )}
+              {config.showWhatsApp && (
+                <li>
+                  <a
+                    href={`https://wa.me/${config.whatsappNumber.replace(/[^\d]/g, "")}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-3 font-medium hover:text-gold"
+                    aria-label="Chat on WhatsApp"
+                  >
+                    <span className="text-2xl leading-none" aria-hidden>
+                      💬
+                    </span>
+                    <span>WhatsApp</span>
+                  </a>
+                </li>
+              )}
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-gold" aria-hidden />
                 <div>

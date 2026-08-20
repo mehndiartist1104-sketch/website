@@ -22,14 +22,16 @@ export function CtaSection({ config }: { config: SiteConfigData }) {
             >
               Get in touch
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="h-12 w-full text-base sm:w-auto"
-              render={<a href={`tel:${config.phone.replace(/\s/g, "")}`} />}
-            >
-              📞 Call
-            </Button>
+            {config.showPhone && (
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-12 w-full text-base sm:w-auto"
+                render={<a href={`tel:${config.phone.replace(/\s/g, "")}`} />}
+              >
+                📞 Call
+              </Button>
+            )}
           </div>
         </div>
       </Reveal>
