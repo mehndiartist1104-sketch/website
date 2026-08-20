@@ -15,7 +15,9 @@ export default async function PublicLayout({
   return (
     <>
       <SiteHeader studioName={config.studioName} />
-      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+      <main className="flex-1 pb-20 pt-[calc(3.5rem+env(safe-area-inset-top))] sm:pt-[calc(4rem+env(safe-area-inset-top))] md:pb-0">
+        {children}
+      </main>
       <SiteFooter config={config} />
       <MobileStickyCta config={config} />
     </>

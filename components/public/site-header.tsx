@@ -31,7 +31,7 @@ export function SiteHeader({ studioName }: { studioName: string }) {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 pt-[env(safe-area-inset-top)] backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 isolate border-b border-border/60 bg-background pt-[env(safe-area-inset-top)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
         <Link
           href="/"
@@ -66,7 +66,7 @@ export function SiteHeader({ studioName }: { studioName: string }) {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-foreground md:hidden"
+          className="relative z-10 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-border bg-card text-primary shadow-sm md:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-label="Toggle navigation"

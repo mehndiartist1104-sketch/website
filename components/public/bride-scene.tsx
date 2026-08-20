@@ -264,7 +264,7 @@ export function BrideBackground() {
   }, [mouseX, mouseY]);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0" aria-hidden>
+    <div className="pointer-events-none fixed inset-0 z-0 [transform:translateZ(0)]" aria-hidden>
       <Canvas
         camera={{ position: [0.38, 0.4, 2.5], fov: 34, near: 0.1, far: 20 }}
         dpr={[1, 1.35]}
