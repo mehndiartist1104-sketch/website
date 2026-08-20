@@ -46,7 +46,7 @@ export async function updateReview(
   const parsed = reviewEditSchema.safeParse({
     name: formData.get("name"),
     rating: formData.get("rating"),
-    message: formData.get("message"),
+    message: String(formData.get("message") ?? ""),
   });
 
   if (!parsed.success) {

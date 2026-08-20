@@ -33,7 +33,7 @@ export const courseSchema = z.object({
 export const reviewEditSchema = z.object({
   name: z.string().trim().min(2).max(100),
   rating: z.coerce.number().int().min(1).max(5),
-  message: z.string().trim().min(10).max(2000),
+  message: z.string().trim().max(2000),
 });
 
 const imageSrcSchema = z

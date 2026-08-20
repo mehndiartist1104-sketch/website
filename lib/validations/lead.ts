@@ -23,11 +23,7 @@ export type LeadInput = z.infer<typeof leadSchema>;
 export const reviewSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name").max(100),
   rating: z.coerce.number().int().min(1, "Please select a rating").max(5),
-  message: z
-    .string()
-    .trim()
-    .min(10, "Please write at least a sentence")
-    .max(2000),
+  message: z.string().trim().max(2000),
   imageUrls: z
     .array(z.string().url())
     .max(6, "You can add up to 6 photos")

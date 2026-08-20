@@ -114,12 +114,11 @@ export function ReviewForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="review-message">Your review *</Label>
+        <Label htmlFor="review-message">Your review (optional)</Label>
         <Textarea
           id="review-message"
           name="message"
           rows={4}
-          required
           placeholder="How was your experience?"
           aria-invalid={Boolean(errors.message)}
         />

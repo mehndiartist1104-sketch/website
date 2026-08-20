@@ -23,9 +23,11 @@ export async function TestimonialCarousel() {
           >
             <CardContent className="pt-6">
               <StarRating rating={review.rating} />
-              <p className="mt-4 text-sm leading-relaxed text-foreground/85">
-                &ldquo;{review.message}&rdquo;
-              </p>
+              {review.message ? (
+                <p className="mt-4 text-sm leading-relaxed text-foreground/85">
+                  &ldquo;{review.message}&rdquo;
+                </p>
+              ) : null}
               <p className="mt-4 font-heading text-lg font-semibold text-primary">
                 {review.name}
               </p>

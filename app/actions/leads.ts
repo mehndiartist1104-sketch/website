@@ -79,7 +79,7 @@ export async function submitReview(
   const parsed = reviewSchema.safeParse({
     name: formData.get("name"),
     rating: formData.get("rating"),
-    message: formData.get("message"),
+    message: String(formData.get("message") ?? ""),
     imageUrls: formData.getAll("imageUrls").filter(Boolean),
   });
 

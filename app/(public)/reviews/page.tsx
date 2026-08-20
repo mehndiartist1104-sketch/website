@@ -39,9 +39,11 @@ export default async function ReviewsPage() {
                       </p>
                       <StarRating rating={review.rating} />
                     </div>
-                    <p className="mt-3 leading-relaxed text-foreground/85">
-                      {review.message}
-                    </p>
+                    {review.message ? (
+                      <p className="mt-3 leading-relaxed text-foreground/85">
+                        {review.message}
+                      </p>
+                    ) : null}
                     <ReviewPhotos urls={review.imageUrls} />
                     <p className="mt-3 text-xs text-muted-foreground">
                       {review.createdAt.toLocaleDateString("en-IN", {

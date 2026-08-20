@@ -77,7 +77,6 @@ function EditReviewForm({
           id="edit-review-message"
           name="message"
           rows={4}
-          required
           defaultValue={review.message}
           aria-invalid={Boolean(errors.message)}
         />
@@ -120,9 +119,11 @@ function ReviewRow({ review }: { review: Review }) {
               {review.isApproved ? "Published" : "Pending"}
             </Badge>
           </div>
-          <p className="mt-2 text-sm leading-relaxed text-foreground/85">
-            {review.message}
-          </p>
+          {review.message ? (
+            <p className="mt-2 text-sm leading-relaxed text-foreground/85">
+              {review.message}
+            </p>
+          ) : null}
           <ReviewPhotos urls={review.imageUrls} />
           <p className="mt-2 text-xs text-muted-foreground">
             {review.createdAt.toLocaleDateString("en-IN", {
