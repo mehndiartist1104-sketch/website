@@ -61,7 +61,6 @@ export function LeadForm({
           type="tel"
           required
           autoComplete="tel"
-          placeholder="+91 ..."
           aria-invalid={Boolean(errors.phone)}
         />
         {errors.phone && <p className="text-sm text-destructive">{errors.phone[0]}</p>}
