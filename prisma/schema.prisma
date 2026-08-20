@@ -41,6 +41,7 @@ model Design {
   category           String
   imageUrl           String
   cloudinaryPublicId String
+  instagramUrl       String         @default("https://www.instagram.com/shikha.s_mehndi_art")
   isFeatured         Boolean        @default(false)
   sortOrder          Int            @default(0)
   createdAt          DateTime       @default(now())

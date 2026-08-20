@@ -57,6 +57,7 @@ export interface DesignItem {
   title: string;
   category: DesignCategory;
   imageUrl: string;
+  instagramUrl: string;
   isFeatured: boolean;
   sortOrder: number;
 }

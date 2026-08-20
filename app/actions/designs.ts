@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/guard";
 import { createUploadSignature, deleteCloudinaryAsset } from "@/lib/cloudinary";
 import { designSchema } from "@/lib/validations/admin";
+import { INSTAGRAM_URL } from "@/lib/constants";
 import type { FormState } from "@/lib/validations/lead";
 import type { DesignCategory } from "@/lib/types";
 
@@ -50,7 +51,11 @@ export async function createDesign(
 
   const maxOrder = await prisma.design.aggregate({ _max: { sortOrder: true } });
   await prisma.design.create({
-    data: { ...parsed.data, sortOrder: (maxOrder._max.sortOrder ?? 0) + 1 },
+    data: {
+      ...parsed.data,
+      instagramUrl: INSTAGRAM_URL,
+      sortOrder: (maxOrder._max.sortOrder ?? 0) + 1,
+    },
   });
 
   revalidateDesignPaths(parsed.data.category);
@@ -86,6 +91,7 @@ export async function createDesigns(
   await prisma.design.createMany({
     data: parsed.data.map((item, index) => ({
       ...item,
+      instagramUrl: INSTAGRAM_URL,
       sortOrder: start + index + 1,
     })),
   });
@@ -130,7 +136,13 @@ export async function updateDesign(
   const existing = await prisma.design.findUnique({ where: { id } });
   if (!existing) return { status: "error", message: "Design not found." };
 
-  await prisma.design.update({ where: { id }, data: parsed.data });
+  await prisma.design.update({
+    where: { id },
+    data: {
+      ...parsed.data,
+      instagramUrl: existing.instagramUrl || INSTAGRAM_URL,
+    },
+  });
 
   if (existing.cloudinaryPublicId !== parsed.data.cloudinaryPublicId) {
     try {
