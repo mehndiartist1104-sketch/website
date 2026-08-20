@@ -41,7 +41,7 @@ function DesignRow({
       value={design}
       dragListener={false}
       dragControls={controls}
-      className="flex items-center gap-3 rounded-xl border border-border bg-card px-3 py-3"
+      className="flex touch-pan-y items-center gap-3 rounded-xl border border-border bg-card px-3 py-3"
     >
       <button
         type="button"
@@ -163,7 +163,7 @@ export function DesignsManager({
         axis="y"
         values={designs}
         onReorder={setDesigns}
-        className="mt-6 space-y-3"
+        className="mt-6 space-y-3 touch-pan-y"
       >
         {designs.map((design) => (
           <DesignRow
@@ -183,7 +183,7 @@ export function DesignsManager({
 
       {/* Create */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="flex max-h-[min(90svh,calc(100dvh-2rem))] flex-col sm:max-w-lg">
           <DialogTitle>Add photos</DialogTitle>
           <DialogDescription>
             Upload one or many pictures. Titles and categories are not needed.

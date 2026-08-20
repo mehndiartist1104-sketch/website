@@ -78,33 +78,37 @@ export function BulkPhotoUpload({ onDone }: { onDone: () => void }) {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="flex max-h-[inherit] flex-col gap-4">
       {previews.length > 0 && (
-        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-          {previews.map((src, index) => (
-            <div
-              key={`${src}-${index}`}
-              className="relative aspect-square overflow-hidden rounded-lg border border-border"
-            >
-              <Image src={src} alt="" fill className="object-cover" sizes="120px" unoptimized />
-              <button
-                type="button"
-                onClick={() => removeFile(index)}
-                className="absolute right-1 top-1 rounded-full bg-primary/80 p-1 text-primary-foreground"
-                aria-label="Remove photo"
-                disabled={pending}
+        <div className="max-h-[45svh] overflow-y-auto overscroll-contain rounded-lg pr-1 [-webkit-overflow-scrolling:touch]">
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+            {previews.map((src, index) => (
+              <div
+                key={`${src}-${index}`}
+                className="relative aspect-square overflow-hidden rounded-lg border border-border"
               >
-                <X className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          ))}
+                <Image src={src} alt="" fill className="object-cover" sizes="120px" unoptimized />
+                <button
+                  type="button"
+                  onClick={() => removeFile(index)}
+                  className="absolute right-1 top-1 rounded-full bg-primary/80 p-1 text-primary-foreground"
+                  aria-label="Remove photo"
+                  disabled={pending}
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
       {files.length < MAX_PHOTOS && (
         <label
           htmlFor="bulk-design-photos"
-          className="flex min-h-32 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border px-4 py-6 text-center text-sm text-muted-foreground transition-colors hover:border-terracotta hover:text-terracotta"
+          className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border px-4 text-center text-sm text-muted-foreground transition-colors hover:border-terracotta hover:text-terracotta ${
+            files.length > 0 ? "min-h-16 py-3" : "min-h-32 py-6"
+          }`}
         >
           <Upload className="h-6 w-6" aria-hidden />
           {files.length > 0 ? "Add more photos" : "Choose photos"}
@@ -140,7 +144,7 @@ export function BulkPhotoUpload({ onDone }: { onDone: () => void }) {
         </p>
       ) : null}
 
-      <div className="flex justify-end gap-3">
+      <div className="sticky bottom-0 z-10 -mx-4 mt-auto flex justify-end gap-3 border-t border-border bg-popover px-4 pb-1 pt-3">
         <Button type="button" variant="outline" onClick={onDone} disabled={pending}>
           Cancel
         </Button>
