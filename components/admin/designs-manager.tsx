@@ -186,7 +186,8 @@ export function DesignsManager({
         <DialogContent className="flex max-h-[min(90svh,calc(100dvh-2rem))] flex-col sm:max-w-lg">
           <DialogTitle>Add photos</DialogTitle>
           <DialogDescription>
-            Upload one or many pictures. Titles and categories are not needed.
+            Upload one or many pictures. A title is optional — leave it blank for
+            a random name, or start typing to see suggestions.
           </DialogDescription>
           <BulkPhotoUpload onDone={refreshAndClose} />
         </DialogContent>
